@@ -1,7 +1,7 @@
 #include "rbtree.h"
 #include <stdlib.h>
 
-test
+test2
 
 rbtree *new_rbtree(void) {
   rbtree *p = (rbtree *)calloc(1, sizeof(rbtree));
