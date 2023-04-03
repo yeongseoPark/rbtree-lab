@@ -336,7 +336,21 @@ int rbtree_erase(rbtree *t, node_t *z) {
   return 0;
 }
 
+void inorder(const rbtree* t, node_t* root, key_t * arr, key_t * idx) 
+{
+  if (root != t->nil) // 센티넬을 사용하기에 nil이 더이상 값이 없음을 나타낸다
+  {
+    inorder(t, root->left, arr, idx);
+    arr[(*idx)++] = root->key;
+    inorder(t, root->right, arr, idx);
+  }
+
+}
+
 int rbtree_to_array(const rbtree *t, key_t *arr, const size_t n) {
-  // TODO: implement to_array
+  key_t idx = 0;
+  
+  inorder(t, t->root, arr, &idx);
+
   return 0;
 }
