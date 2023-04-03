@@ -233,7 +233,7 @@ void rb_erase_fixup(rbtree *t, node_t* x)
         rotate_left(t, x->parent);
         w = x->parent->right; // 새로운 형제
       }
-      if (w->left->color == RBTREE_BLACK && w->right->color == RBTREE_BLACK) // 경우 2. 형제가 BLACK, 형제의 두 자녀 모두 BLACK
+      if ((w->left->color == RBTREE_BLACK) && (w->right->color == RBTREE_BLACK)) // 경우 2. 형제가 BLACK, 형제의 두 자녀 모두 BLACK
       // 형제와 나의 BLACK을 모아서 부모에게 전달(형제는 RED로 변화), 부모를 기준으로 extra black 다시 해결
       {
         w->color = RBTREE_RED;
@@ -257,7 +257,6 @@ void rb_erase_fixup(rbtree *t, node_t* x)
         x = t->root;
       }
     }
-    
     else // 대분류 2. fixup을 적용하는 x는 자신의 부모의 우측자식 - 대분류1과 왼쪽 오른쪽이 반대
     {
       node_t* w = x->parent->left;
@@ -268,7 +267,7 @@ void rb_erase_fixup(rbtree *t, node_t* x)
         rotate_right(t, x->parent);
         w = x->parent->left;
       }
-      if (w->right->color == RBTREE_BLACK && w->left->color == RBTREE_BLACK)
+      if ((w->left->color == RBTREE_BLACK) && (w->right->color == RBTREE_BLACK))
       {
         w->color = RBTREE_RED;
         x = x->parent;
@@ -289,8 +288,8 @@ void rb_erase_fixup(rbtree *t, node_t* x)
         x = t->root;
       }
     }
-    x->color = RBTREE_BLACK;
   }
+  x->color = RBTREE_BLACK;
 }
 
 int rbtree_erase(rbtree *t, node_t *z) {
@@ -310,7 +309,7 @@ int rbtree_erase(rbtree *t, node_t *z) {
   }
   else // 자식 둘 - 삭제되는 색 = 삭제되는 노드의 successor의 색
   {
-    y = tree_minimum(t, z->right); // y가 successor(왼쪽서브트리에서 가장 작은 값)
+    node_t * y = tree_minimum(t, z->right); // y가 successor(왼쪽서브트리에서 가장 작은 값)
     y_original_color = y->color;
     x = y->right; // 이 경우에도 successor의 자리를 대체하는 x에 대해 fixup을 돌려줘야 한다
     if (y->parent == z) 
