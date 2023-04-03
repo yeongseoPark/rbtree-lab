@@ -64,9 +64,9 @@ void rotate_left(rbtree *t, node_t* target)
 
 void rb_insert_fixup(rbtree *t, node_t * target) 
 {
-  while (target->parent->color == RBTREE_RED) 
+  while (target->parent->color == RBTREE_RED) // 종료조건: 루프 종료시 target의 부모는 BLACK
   {
-    if (target->parent == target->parent->parent->left)  // 대분류1. z.p는 조부모의 왼쪽 자식
+    if (target->parent == target->parent->parent->left)  // 대분류1. target.p는 조부모의 왼쪽 자식
     {
 
       node_t * y = target->parent->parent->right; // 삼촌 y
@@ -151,8 +151,23 @@ node_t *rbtree_insert(rbtree *t, const key_t key) {
   return t->root;
 }
 
+// 자식부터 삭제해야지만 dangling pointer를 참조하는 것 방지, 따라서 postorder 사용
+void postorder_delete_all_node(rbtree *t, node_t* root) {
+  if (root == t->nil)
+    return;
+  
+  if (root->left != t->nil) 
+    postorder_delete_all_node(t, root->left);
+  if (root->right != t->nil)
+    postorder_delete_all_node(t, root->right);
+  free(root);
+}
+
 void delete_rbtree(rbtree *t) {
   // TODO: reclaim the tree nodes's memory
+  postorder_delete_all_node(t, t->root);
+
+  free(t->nil); // sentinel도 메모리를 해제해줘야 함
   free(t);
 }
 
