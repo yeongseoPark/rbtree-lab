@@ -173,12 +173,24 @@ node_t *rbtree_find(const rbtree *t, const key_t key) {
 
 node_t *rbtree_min(const rbtree *t) {
   // TODO: implement find
-  return t->root;
+  node_t *cur = t->root;
+  while (cur->left != t->nil) 
+  {
+    cur = cur->left;
+  }
+
+  return cur;
 }
 
 node_t *rbtree_max(const rbtree *t) {
   // TODO: implement find
-  return t->root;
+  node_t *cur = t->root;
+  while (cur->right != t->nil) 
+  {
+    cur = cur->right;
+  }
+
+  return cur;
 }
 
 void rb_transplant(rbtree *t, node_t *u, node_t *v)
@@ -193,7 +205,8 @@ void rb_transplant(rbtree *t, node_t *u, node_t *v)
   v->parent = u->parent;
 }
 
-/* BST에서 최소의 키를 가지는 원소를 찾으려면 nil만날때까지 루트로부터 왼쪽 자식을 계속 따라가기 */
+/* erase에서 subtree의 min 찾는 역할
+: BST에서 최소의 키를 가지는 원소를 찾으려면 nil만날때까지 루트로부터 왼쪽 자식을 계속 따라가기 */
 node_t *tree_minimum(rbtree *t, node_t * root) 
 {
   while (root->left != t->nil) 
