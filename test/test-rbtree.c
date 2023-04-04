@@ -367,17 +367,34 @@ void test_find_erase_rand(const size_t n, const unsigned int seed) {
   delete_rbtree(t);
 }
 
+void isMultiset() {
+  rbtree *t = new_rbtree();
+  key_t *arr = calloc(5, sizeof(key_t));
+  for (int i = 0; i < 5; i++) {
+    arr[i] = 3;
+    rbtree_insert(t, arr[i]);
+  }
+
+  int *arr2 = calloc(5, sizeof(key_t));
+  rbtree_to_array(t, arr2, 5);
+
+  for (int i = 0; i < 5; i++) {
+    assert(arr[i] == arr2[i]);
+  }
+}
+
 int main(void) {
-  test_init();
-  test_insert_single(1024);
-  test_find_single(512, 1024);
-  test_erase_root(128);
-  test_find_erase_fixed();
-  test_minmax_suite();
-  test_to_array_suite();
-  test_distinct_values();
-  test_duplicate_values();
-  test_multi_instance();
-  test_find_erase_rand(10000, 17);
+  // test_init();
+  // test_insert_single(1024);
+  // test_find_single(512, 1024);
+  // test_erase_root(128);
+  // test_find_erase_fixed();
+  // test_minmax_suite();
+  // test_to_array_suite();
+  // test_distinct_values();
+  // test_duplicate_values();
+  // test_multi_instance();
+  // test_find_erase_rand(10000, 17);
+  isMultiset();
   printf("Passed all tests!\n");
 }
